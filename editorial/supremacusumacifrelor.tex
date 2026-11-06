@@ -1,0 +1,49 @@
+\section{supremacusumacifrelor}
+\textit{Dificultate: 5/5} \\
+\textit{Propunător: Matteo-Alexandru Verzotti} \\
+\textit{Developer: Matteo-Alexandru Verzotti, Vlad-Mihai Bogdan} \\
+\textit{First solve: LucaLucaM după 02:02:11}  \\
+
+\begin{theorem}
+	Fie $s(n)_B$ suma cifrelor numărului $n$ în baza $B$. Atunci avem că
+	\[
+	    s(n)_B \equiv n_B \mod (B - 1)
+	\]
+\end{theorem}
+
+Teorema de mai sus este de fapt o generalizare a proprietății cunoscute
+\[
+    s(n)_{10} \equiv n_{10} \mod 9
+\]
+
+Cu alte cuvinte, suma cifrelor unui număr dă același rest la împărțirea cu $9$ ca și numărul propriu-zis (în baza $10$). De aceea, nu va fi niciodată nevoie să ne îngrijorăm de suma cifrelor numărului rezultat după aplicarea farmecelor, ci doar de numărul propriu-zis.
+
+Fie $f_1, f_2, \dots, f_K$ o înșiruire de $K$ farmece aplicate lui $x$. Atunci vrem ca 
+
+\[
+\begin{align}
+    x + f_1 + f_2 + \dots + f_K & \equiv 0 & \mod (B - 1) \\
+    \Longleftrightarrow f_1 + f_2 + \dots + f_K & \equiv -x & \mod (B - 1) \\
+    \Longleftrightarrow f_1 + f_2 + \dots + f_K & \equiv B - 1 - x & \mod (B - 1)
+\end{align}
+\]
+
+De acum în colo vom considera că lucrăm modulo $B - 1$. Fie $c_i$ numărul de farmece din cele $N$ care dau restul $i$ la împărțirea cu $B - 1$, iar $\mathrm{dp}_{k, r}$ numărul de moduri să obținem valoarea $r$ după aplicarea a $k$ farmece. Evident, $\mathrm{dp}_1 = c$.
+
+Avem în acest caz recurența 
+\[
+    \mathrm{dp}_{k+1,s}
+    = \sum_{i=0}^{s} \mathrm{dp}_{k,s-i} c_i
+\]
+
+Complexitatea acestei rezolvări este $\mathcal{O}(KB^2)$ și obține în jur de $21$ de puncte.
+
+\medskip
+
+Pentru a optimiza această soluție, trebuie să ne imaginăm vectorul $c$ ca și coeficienții unui polinom de gradul $B - 1$. De exemplu, dacă avem $B = 4, N = 6$, iar vectorul de farmece $v = [3, 1, 2, 3, 8, 4]$. Atunci avem $c = [0, 1, 2, 2, 1, 0]$, iar polinomul este $p(x) = x^4 + 2x^3 + 2x^2 + x$. Putem observa acum că $\mathrm{dp}_2$ este de fapt egal cu $p(x) \cdot p(x)$, unde coeficienții mai mari decât $B - 1$ se adună modulo.
+
+Putem observa acum în mod inductiv, că $\mathrm{dp}_k = p^k(x)$. Dacă folosim \href{https://en.wikipedia.org/wiki/Exponentiation\_by\_squaring}{ridicare la putere în timp algoritmic}, putem calcula $p^K(x)$ în complexitatea $\mathcal{O}(B^2 \log K)$, soluție ce obține $40$ de puncte.
+
+\medskip
+
+Pentru $100$ de puncte, înmulțirea a două polinoame trebuie optimizată de la $\mathcal{O}(B^2)$ la $\mathcal{O}(B \log B)$ folosind \href{https://usaco.guide/adv/fft?lang=cpp}{Fast Fourier Transform}. Complexitatea finală este redusă la $\mathcal{O}(B \log B \log K)$.
