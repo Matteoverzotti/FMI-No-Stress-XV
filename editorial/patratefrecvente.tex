@@ -1,0 +1,41 @@
+\section{Pătrate Frecvente}
+\textit{Dificultate: 3/5} \\
+\textit{Propunător: Tudor Condorache} \\
+\textit{Developer: Tudor Condorache, Denisa Natalia Pogar} \\
+\textit{First solve: qfasfqwdfadafqwafvqvqvf după 00:31:16}  \\
+
+\begin{remark}
+    Dacă o secvență include $k$ materiale diferite, atunci lungimea sa trebuie să fie de:
+    \[
+        1^{2} + 2^{2} + \ldots + k^{2} = \frac{k(k+1)(2k + 1)}{6} \leq 500\ 000
+    \]
+    
+\end{remark}
+
+Avem deci $k_{max} = 114$ lungimi diferite ce pot fi testate, pe care le putem precalcula la început. Vom lua o secvență dintre acestea de lungime aribtrară $l$ și vom vedea, pentru fiecare \textit{sliding window} de lungime $l$, dacă aceasta formează o secvență mulțumitoare.
+
+Pentru a vedea dacă o secvență este mulțumitoare, vom ține un vector de frecvență $f$, unde $f_{i}$ va reține de câte ori apare materialul $i$ în secvența noastră.
+
+Acum, ca o secvență de lungime $l = 1^{2} + 2^{2} + \ldots + k^{2}$ să fie mulțumitoare, am dori ca în vectorul $f$ să avem
+\begin{align*}
+    f_{item_{1}}   &= 1 \\
+    f_{item_{2}} &= 4 \\
+    f_{item_{3}} &= 9 \\
+     & \vdots \\
+    f_{item_{k}} &= k^{2}
+\end{align*}
+
+Este totuși dificil să verificăm existența acestor valori în timp constant. De aceea, vom mai ține un vector de frecvență $f'$, unde $f'_{i} = 1 \iff \exists j \; \text{a.î}\; f_{j} = i^{2}$. Acum, condiția noastră se transformă în:
+\begin{align*}
+    f'_{j_{1}}   &= 1 \\
+    f'_{j_{2}} &= 1 \\
+    f'_{j_{3}} &= 1 \\
+    & \vdots \\
+    f'_{j_{k}} &= 1
+\end{align*}
+
+Acest lucru este mult mai ușor de verificat. Atunci când tranziționăm cu secvența de la $[l, r]$ la $[l + 1, r +1]$, trebuie să modificăm doar felul în care $A[r + 1]$ și $A[l]$ contribuie la cei doi vectori de frecvență.
+
+\medskip
+
+Complexitate finală: $\mathcal{O}(N \cdot k_{max})$.

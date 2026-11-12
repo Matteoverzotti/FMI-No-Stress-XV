@@ -1,0 +1,20 @@
+\section{latin}
+\textit{Dificultate: 2/5} \\
+\textit{Propunător: Matei Benchea} \\
+\textit{Developer: Matei Benchea} \\
+\textit{First solve: C32ardash după 00:22:54}  \\
+
+Vom lua problema pe cazuri.
+
+\textbf{Cazul $K = 1$:} În acest caz nu avem nicio altă opțiune decât să formăm cuvântul $\underbrace{ aaa \dots  a}_{ N \text{ ori} }$.
+
+\textbf{Cazul $K \geq 3$:} În acest caz putem repeta periodic șirul $abcabc\dots$ până ce obținem $N$ caractere. Se poate arăta că numărul de palindroame este chiar egal cu $N$ și este minim în acest caz.
+
+
+\textbf{Cazul $K = 2$:} Pentru acest caz, se poate observa, la fel ca anterior, că dacă repetăm în mod periodic șirul $abaabb$, vom obține garantat număr minim de palindroame. Acest pattern se poate obține fie prin încercări pe foaie, fie cu un algoritm de backtracking. În continuare, restul editorialului va demonstra de ce acest pattern obține număr minim de palindroame.
+
+\section*{TODO}
+
+\medskip
+
+Complexitate finală: $\mathcal{O}(N)$.

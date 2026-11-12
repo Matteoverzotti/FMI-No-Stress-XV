@@ -1,0 +1,14 @@
+\section{Restart}
+\textit{Dificultate: 1/5} \\
+\textit{Propunător: Marius-Stelian Brabete} \\
+\textit{Developer: Marius-Stelian Brabete} \\
+\textit{First solve: stefanBusoi după 00:03:30}  \\
+
+Problema a fost singura din concurs ce necesita scrierea și afișarea rezultatului folosind fișiere. Având un milion de numere și o limită de memorie foarte mică, nu este posibilă reținerea tuturor numerelor într-un vector.%
+\footnote{O soluție neoficială (dar care ia punctaj maxim) reține numerele într-un vector de frecvență. Comisia a lăsat intenționat și această variantă de rezolvare disponibilă.}
+
+Soluția oficială citește numerele din fișier, calculează media aritmetică, \href{https://cplusplus.com/reference/fstream/fstream/close/}{închide} și apoi \href{https://cplusplus.com/reference/fstream/fstream/open/}{redeschide} fișierul, pentru a putea citi numerele a doua oară, făra memorie suplimentară.
+
+\medskip
+
+Complexitate finală: $\mathcal{O}(N)$.
