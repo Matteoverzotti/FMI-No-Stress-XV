@@ -1,11 +1,88 @@
+\newcommand{\pluseq}{\mathrel{+\mkern-5mu=}}
+
 \section{Automatizare}
 \textit{Dificultate: 5/5} \\
 \textit{Propunător: Ilie-Daniel Apostol} \\
 \textit{Developer: Ilie-Daniel Apostol, Matteo-Alexandru Verzotti} \\
 \textit{First solve: qfasfqwdfadafqwafvqvqvf după 02:07:04}  \\
 
+Probabilitatea ca, la un pas oarecare al algoritmului, să obținem exact o operație reușită dorită de noi, este egală cu
+\[
+    q = \frac{p}{n - 1}
+,\]
 
+unde $\frac{1}{n - 1}$ este probabilitatea de a genera exact numărul dorit din intervalul $[1, n - 1]$, iar $p = \frac{P}{100}$ este probabilitatea ca operația să nu eșueze.
 
 \medskip
 
-Complexitate finală: $\mathcal{O}(N)$.
+Să ne gândim întâi la cele mai ``rele'' cazuri:
+\begin{itemize}
+    \item Elementul $1$ este mutat pe poziția $n$.
+    Permutarea devine
+    \[
+        (2, 3, \ldots, n, 1).
+    \]
+    Pentru a o repara, operațiile trebuie efectuate
+    în ordinea
+    \[
+        n-1 \;\longrightarrow\; n-2
+        \;\longrightarrow\; \cdots
+        \;\longrightarrow\; 1,
+    \]
+    iar fiecare trebuie să reușească. Între acestea pot
+    apărea și alte operații, deoarece știm sigur că
+    ele nu vor afecta permutarea.
+\item Elementul $n$ este mutat pe poziția $1$.
+    Permutarea devine
+    \[
+	(n, 1, 2, \dots, n - 1).
+    \]
+    Pentru a o repara, operațiile trebuie efectuate în ordinea
+    \[
+        1 \longrightarrow 2 \longrightarrow\ \dots \longrightarrow\ n - 1,
+    \]
+    
+    cu aceleași condiții ca mai sus.
+\end{itemize}
+
+Vom nota cu $\uparrow$ șirul $(1, 2, \dots, n - 1)$, iar cu $\downarrow$ șirul $(n - 1, n - 2, \dots, 1)$.
+
+Deoarece trebuie ca algoritmul nostru să sorteze permutarea în orice caz, înseamnă că acesta trebuie să conțină ca subșiruri atât pe $\uparrow$, cât și pe $\downarrow$. Se poate observa că un singur număr dintre acestea contribuie la ambele subșiruri, deci ne trebuie un algoritm ce va avea \textbf{minim} $2n - 3$ operații.
+
+În continuare, vom calcula probabilitatea ca algoritmul nostru să le conțină pe $\uparrow$ și pe $\downarrow$ ca subșiruri folosind programare dinamică. Notăm cu $p_{t,a,b}$
+probabilitatea ca, după $t$ pași, secvența să fi contribuit
+cu $a$ numere la $\downarrow$ și cu $b$ numere la $\uparrow$. Pentru recurență, avem mai multe cazuri:
+
+\begin{itemize}
+    \item $a = b = n - 1$ \\
+	Atunci deja am construit un algoritm bun, deci orice operație adăugată îl menține bun. Avem că:
+    \[
+	p_{t + 1, n - 1, n - 1} \pluseq p_{t, n - 1, n - 1}
+    \]
+\item $a = n - 1, b \neq n - 1$\\
+    Atunci avem probabilitate $q$ ca următoarea operație generată să contribuie la $\downarrow$, și $1 - q$ să nu:
+    \begin{align*}
+	p_{t + 1, n - 1, b + 1} & \pluseq q \cdot p_{t, n - 1, b} \\
+	p_{t + 1, n - 1, b} & \pluseq (1 - q) \cdot p_{t, n - 1, b}
+    \end{align*}
+\item $b = n - 1, a \neq n - 1$ \\
+    Echivalent cu cazul de mai sus.
+\item $a + 1 = n - b - 1$. \\
+    Cu alte cuvinte, următoarea operație ar contribui atât la $\uparrow$, cât și la $\downarrow$. Ca și exemplu, dacă $n = 6, \; \uparrow = (1, 2), \; \downarrow = (5, 4)$, atunci generarea operației $(3, \textbf{reușită})$ contribuie la ambele șiruri. În acest caz, avem, la fel ca mai sus, probabilitate $q$ să contribuie la ambele și $1 - q$ la niciunul:
+    \begin{align*}
+	p_{t + 1, a + 1, b + 1} & \pluseq q \cdot p_{t, a, b} \\
+	p_{t + 1, a, b} & \pluseq (1 - q) \cdot p_{t, a, b}
+    \end{align*}
+\item În restul cazurilor, avem probabilitate $q$ ca următoarea operație să contribuie la $\uparrow$, $q$ ca următoarea operație să contribuie la $\downarrow$, și $1 - 2q$ ca următoarea operație să nu contribuie la niciunul dintre ele.
+    \begin{align*}
+	p_{t + 1, a + 1, b} & \pluseq q \cdot p_{t, a, b} \\
+	p_{t + 1, a, b + 1} & \pluseq q \cdot p_{t, a, b} \\
+	p_{t + 1, a, b} & \pluseq (1 - 2q) \cdot p_{t, a, b}
+    \end{align*}
+\end{itemize}
+
+Cazul de bază este $p_{0, 0, 0} = 1$, iar răspunsul se află în $p_{T, n - 1, n - 1}$. Pentru obținerea punctajului maxim, trebuie reținute doar ultimele $2$ linii din matricea $p$, pentru a nu depăși limita de memorie.
+
+\medskip
+
+Complexitate finală: $\mathcal{O}(TN^{2})$.
