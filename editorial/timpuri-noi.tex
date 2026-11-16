@@ -4,7 +4,12 @@
 \textit{Developer: Radu Teodor Prosie, Matei Benchea} \\
 \textit{First solve: C32ardash după 01:56:17}  \\
 
+Numărul de drumuri de lungime \textbf{exact} $k$ de la nodul $u$ la nodul $v$ într-un graf $G$ este $(A_G^k)_{u,v}$, unde $A_G$ este matricea de adiacență a grafului $G$.
+
+Pentru a calcula numărul de drumuri de lungime \textbf{cel mult} $k$, putem adăuga un nod nou $w$ în $G$, iar apoi adăugăm muchia orientată $(v \to w)$ și bucla $(w \to w)$. Practic, nodul $w$ va acumula toate rezultatele intermediare. Răspunsul este acum $(A_G^{k+1})_{u,w}$.
+
+Acum avem o rutină care rezolvă problema pentru un graf fără restricții pe muchii. Răspunsul va fi $\sum_{i=0}^{2m-1} (A_i^{t_i})_{u,w}$, unde $A_i$ este matricea de adiacență a grafului după $i$ modificări, iar $t_i$ este durata intervalului de timp în care $A_i$ este matricea de adiacență a grafului. Prin urmare, este suficient să iterăm prin toate momentele de timp în care matricea de adiacență a grafului se schimbă și să calculăm contribuția matricei curente, folosind formula de mai sus. Avem în total $2m$ astfel de momente.
 
 \medskip
 
-Complexitate finală: $\mathcal{O}()$.
+Complexitate finală: $\mathcal{O}(N^3 \cdot M \cdot \log K)$.

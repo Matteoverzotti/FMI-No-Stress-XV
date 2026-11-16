@@ -4,6 +4,12 @@
 \textit{Developer: Matei Benchea, Vlad-Mihai Bogdan, Tudor Condorache, Andrei Turcu} \\
 \textit{First solve: N/A}  \\
 
+Într-o pavare corectă cu dreptunghiuri, fiecare colț al unuia dintre dreptunghiurile din pavare apare de un număr par de ori (fie de patru, fie de două ori) ca și colț al dreptunghiurilor din pavare. Singura excepție sunt colțurile bounding box-ului (dreptunghiul "mare”, care le conține pe toate), fiecare dintre ele apărând exact o singură dată.
+
+Prin urmare, putem să atribuim fiecărui punct care este colț de dreptunghi o valoare unică (de exemplu, generată aleator, pe 64 de biți) și să calculăm xor-ul acestor valori pe intervalul $[l, r]$. Xor-ul ar trebui să fie egal cu xor-ul celor patru colțuri ale bounding box-ului dreptunghiurilor din intervalul $[l, r]$. Pentru a calcula xor-ul putem folosi xor-uri pe prefixe, iar pentru colțurile bounding box-ului putem folosi un sparse table pentru a calcula valorile minime și maxime ale $x$-urilor și $y$-urilor din $a[l \dots r]$.
+
+Un caz la care trebuie să avem grijă este atunci când avem două sau mai multe dreptunghiuri egale în intervalul $[l, r]$. Acest caz se poate trata separat.
+
 \medskip
 
-Complexitate finală: $\mathcal{O}()$.
+Complexitate finală: $\mathcal{O}(N \cdot \log N + Q)$.
