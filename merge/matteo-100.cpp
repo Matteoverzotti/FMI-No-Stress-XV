@@ -26,8 +26,8 @@ int main() {
         }
 
         if (max_a <= max_b)
-            cout << "a\n";
-        else cout << "b\n";
+            cout << "A\n";
+        else cout << "B\n";
     }
 
     assert(1 <= total_n && total_n <= 1000000);
