@@ -4,7 +4,10 @@
 \textit{Developer: Vlad-Mihai Bogdan, Matteo-Alexandru Verzotti} \\
 \textit{First solve: C32ardash după 00:57:24}  \\
 
+Se poate observa că, dacă există un element $j \leq n$ astfel încât toate elementele lui $a$ sunt mai mici sau egale cu $b[j]$, atunci, indiferent de permutare, $b$ va câștiga.
+
+În concluzie, este suficient să verificăm existența acestui indice. Cu alte cuvinte, dacă maximul din $a$ este mai mic sau egal cu maximul din $b$, atunci $a$ va câștiga toate permutările, iar în caz contrar, $b$ va câștiga toate permutările.
 
 \medskip
 
-Complexitate finală: $\mathcal{O}()$.
+Complexitate finală: $\mathcal{O}(N)$.

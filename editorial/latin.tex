@@ -13,7 +13,39 @@ Vom lua problema pe cazuri.
 
 \textbf{Cazul $K = 2$:} Pentru acest caz, se poate observa, la fel ca anterior, că dacă repetăm în mod periodic șirul $abaabb$, vom obține garantat număr minim de palindroame. Acest pattern se poate obține fie prin încercări pe foaie, fie cu un algoritm de backtracking. În continuare, restul editorialului va demonstra de ce acest pattern obține număr minim de palindroame.
 
-\section*{TODO}
+\subsection*{Demonstrație optimalitate}
+
+Fie $S$ un șir de caractere arbitrar de lungime $N$. Îl vom împărți pe $S$ în secvențe maximale de caractere egale. Spre exemplu,
+\[
+    S = \underbrace{ aa }_{ R_{1} }\underbrace{ bbb }_{ R_{2} }\underbrace{ a }_{ R_{3} }\underbrace{ bb }_{ R_{4} }.
+\]
+$S$ are $N$ palindroame triviale de lungime $1$. Pentru fiecare secvență maximală de lungime $L$, aceasta mai conține cel puțin $L - 1$ palindroame de lungime $2$. În total, avem, pentru un număr arbitrar de secvențe $r$:
+\[
+    \sum_{i=1}^{r}(\left| R_{i} \right| - 1) = N - r
+.\]
+
+Mai rămâne să numărăm câte palindroame se ``întind'' pe mai mult de o secvență, adică palindroamele formate din trei secvențe consecutive $R_{i}, R_{i+1}, R_{i+2}$. Fiecare triplet de trei secvențe consecutive va conține minim un nou palindrom distinct (deoarece vrem minimul, considerăm că va conține \textbf{exact} un singur palindrom). Avem $r - 2$ astfel de triplete.
+
+Adunând cele trei tipuri de palindroame găsite mai sus, avem minim $N + (N - r) + (r - 2) = 2N - 2$ palindroame pentru orice șir $S$.
+
+\medskip
+
+Acum, să considerăm șirul $S = \texttt{abaabbabaabbabaabb...}$. Vom arăta că orice prefix al său de lungime $N \geq 2$ conține exact $2N - 2$ palindroame.
+
+\begin{remark}
+    Niciun prefix al lui $S$ nu conține un palindrom de lungime cel puțin $5$.
+\end{remark}
+
+Orice palindrom de lungime impară mai mare sau egală cu $5$ conține un palindrom central de lungime $5$. Similar, orice palindrom de lungime pară mai mare sau egală cu $6$ conține un palindom central de lungime $6$. Deoarece palindromul nostru are perioadă $6$, putem verifica de mână și confirma că nu există niciun palindrom de lungime $5$ sau $6$.
+
+Astfel, e suficient să numărăm palindroamele de lungimi $2, 3, 4$.
+\begin{itemize}
+    \item Lungime $2$: \texttt{aa, bb}
+    \item Lungime $3$: \texttt{aba, bab}
+    \item Lungime $4$: \texttt{baab, abba}
+\end{itemize}
+
+Mai precis, fiecare poziție $i \geq 3$ este capătul unui singur palindom netrivial. Pentru un prefix de lungime $N \geq 2$, avem exact $N - 2$ palindroame netriviale plus $N$ palindroame triviale. Astfel, numărul de palindroame este $2N - 2$, care este și limita inferioară.
 
 \medskip
 

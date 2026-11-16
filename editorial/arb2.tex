@@ -4,7 +4,31 @@
 \textit{Developer: Daniel Gheorghe, Vlad-Mihai Bogdan} \\
 \textit{First solve: 888 după 00:39:37}  \\
 
+\begin{remark}
+    O subsecvență $A[L\dots R]$ de lungime $K = R - L + 1$ reprezintă codificarea unui arbore valid dacă și numai dacă 
+    \[
+	\sum_{i=L}^{R} A[i] = K - 1 = R - L
+    \]
+\end{remark}
+
+Observația de mai sus este necesară, deoarece un arbore cu $K$ noduri are exact $K - 1$ muchii. Aceasta este și suficientă: dându-se $K$ numere naturale cu suma $K - 1$, se poate construi un arbore cu acele condiții, deoarece ele nu impun vreo restricție cu privire la ordonarea părinte-copil.
 
 \medskip
 
-Complexitate finală: $\mathcal{O}()$.
+Vrem deci să numărăm câte subsecvențe satisfac
+\begin{align*}
+    & \sum_{i = L}^{R} A[i] = R - L \\
+    \iff & (\sum_{i = L}^{R} A[i]) - (R - L + 1) = -1 \\
+    \iff & \sum_{i = L}^{R} (A[i] - 1) = -1
+\end{align*}
+
+Notăm $B[i] = A[i] - 1$. Vrem acum să numărăm câte subsecvențe ale lui $B$ au suma $-1$. Această problemă se poate rezolva cu sume parțiale. Fie 
+\[
+    P[i] = \sum_{j = 1}^{i} B[j], \quad P[0] = 0
+\]
+
+Atunci $B[L\dots R] = P[R] - P[L - 1] = -1$. Adică, $P[L - 1] = P[R] + 1$. Deci, pentru fiecare capăt dreapta $R$, vrem să vedem de câte ori a mai apărut până acum în vectorul $P$ valoarea $P[R] + 1$. Acest lucru poate fi verificat cu un vector de frecvență sau cu un \href{https://www.geeksforgeeks.org/cpp/how-to-use-hashmap-in-cpp/}{hashmap}.
+
+\medskip
+
+Complexitate finală: $\mathcal{O}(N)$.

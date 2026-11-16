@@ -4,6 +4,26 @@
 \textit{Developer: Daniel Gheorghe, Vlad-Mihai Bogdan} \\
 \textit{First solve: radu\_006 după 00:49:06}  \\
 
+\begin{remark}
+    Întotdeauna cele două camere (noduri) închise vor fi frunze. În caz contrar, arborele ar deveni deconectat. 
+\end{remark}
+
+Vom aborda o soluție greedy, încercând să arătăm că, la orice pas, dacă două frunze pot fi închise fără a deconecta arborele, atunci este optim să le închidem.
+
+Să presupunem că ne aflăm în subarborele nodului $u$, care are $c$ copii. Presupunem că deja am procesat fiecare subarbore copil al lui $u$. Asta înseamnă că fiecare copil va avea o singură frunză.
+
+Acum, putem să închidem acești subarbori în pereche, deoarece ei au LCA-ul chiar nodul $u$. Ambele lanțuri vor dispărea, în timp ce $u$ rămâne deschis. Vom distinge două cazuri:
+\begin{enumerate}
+	\item $c$ este par: putem să grupăm toate lanțurile copil, realizând $c/2$ operații. Nodul $u$ devine frunză
+	\item $c$ este impar: putem să le grupăm pe toate mai puțin unul, realizând $(c - 1) / 2$ operații. Nodul $u$ devine parte dintr-un lanț rămas, iar el va avea o singură frunză rămasă în subarbore.
+\end{enumerate}
+
+Cu alte cuvinte, în ambele cazuri avem nevoie de exact $\lfloor \frac{c}{2} \rfloor $ operații la nodul $u$.
+
+Singurul caz imposibil este atunci când rădăcina are număr impar de fii, deoarece, datorită cazului $2$ de mai sus, va rămâne cu un lanț pe care nu îl mai poate grupa.
+
+Ordinea în care grupăm subarborii nu contează, ceea ce ne demonstrează faptul că orice grupare a acestora va da un număr minim de operații.
+
 \medskip
 
-Complexitate finală: $\mathcal{O}()$.
+Complexitate finală: $\mathcal{O}(N)$.

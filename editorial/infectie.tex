@@ -1,9 +1,109 @@
+\usetikzlibrary{patterns}
+
+% #1 = numarul de linii, #2 = numarul de coloane
+% #3 = celulele infectate, scrise linie/coloana
+\newcommand{\infectiongrid}[3]{%
+  \begin{tikzpicture}[x=0.55cm,y=-0.55cm,
+                      baseline=(current bounding box.center)]
+    \foreach \r/\c in {#3} {
+      \fill[pattern=north east lines,pattern color=black]
+        ({\c-1},{\r-1}) rectangle (\c,\r);
+    }
+    \foreach \x in {0,...,#2} {\draw[thin] (\x,0) -- (\x,#1);}
+    \foreach \y in {0,...,#1} {\draw[thin] (0,\y) -- (#2,\y);}
+  \end{tikzpicture}%
+}
+
 \section{infectie}
 \textit{Dificultate: 1/5} \\
 \textit{Propunător: Matei Benchea} \\
 \textit{Developer: Matei Benchea, Mihnea-Valentin Neacșu, Matteo-Alexandru Verzotti} \\
-\textit{First solve: VSebastian după 00:09:13}  \\
+\textit{First solve: VSebastian după 00:09:13} \\
 
 \medskip
 
-Complexitate finală: $\mathcal{O}()$.
+Răspunsul este $\left\lceil \frac{N+M}{2} \right\rceil$.
+
+În continuare vom prezenta o intuiție despre cum se putea ajunge la acest răspuns. Demonstrația optimalității nu era necesară în timpul concursului, întrucât concurentul putea verifica dacă soluția obține $100$ de puncte (proof by accepted).
+
+
+\subsection*{Subtask 1: $N=1$}
+
+Matricea este un șir. Infectăm inițial pozițiile $1,3,5,\ldots$ și, dacă $M$ este par, infectăm și poziția $M$. Fiecare poziție rămasă liberă se află între două poziții infectate, deci se va infecta. Am folosit exact
+\[
+    \left\lceil\frac{M+1}{2}\right\rceil
+\]
+teritorii, cât impune limita inferioară.
+
+De exemplu, pentru $M=4$:
+\begin{center}
+    \infectiongrid{1}{4}{1/1,1/3,1/4}
+    \(\quad\longrightarrow\quad\)
+    \infectiongrid{1}{4}{1/1,1/2,1/3,1/4}
+\end{center}
+
+De exemplu, pentru $M=5$:
+\begin{center}
+    \infectiongrid{1}{5}{1/1,1/3,1/5}
+    \(\quad\longrightarrow\quad\)
+    \infectiongrid{1}{5}{1/1,1/2,1/3,1/4,1/5}
+\end{center}
+
+\subsection*{Subtask 2: $N=2$}
+
+Infectăm mai întâi $(1,1)$ și $(2,2)$. Celelalte două celule din pătratul $2\times2$ se infectează, deci primele două coloane devin complet infectate.
+
+Apoi, presupunem că primele $j$ coloane sunt infectate. Dacă infectăm inițial și teritoriul $(2,j+2)$, atunci $(2,j+1)$ are doi vecini infectați: $(2,j)$ și $(2,j+2)$. După el se infectează $(1,j+1)$, apoi $(1,j+2)$. Așadar, un singur teritoriu ales în plus acoperă încă două coloane. Repetăm cât timp este posibil; dacă rămâne o singură coloană, infectăm inițial celula ei de jos, iar celula de sus se va infecta.
+
+Numărul de teritorii alese este $2+\lceil(M-2)/2\rceil=\lceil(M+2)/2\rceil$. Pentru $M=6$:
+\begin{center}
+    \infectiongrid{2}{6}{1/1,2/2,2/4, 2/6}
+    \(\quad\longrightarrow\quad\)
+    \infectiongrid{2}{6}{1/1,1/2,1/3,1/4,2/1,2/2,2/3,2/4, 1/5, 1/6, 2/5, 2/6}
+\end{center}
+
+Pentru $M = 7$:
+\begin{center}
+    \infectiongrid{2}{7}{1/1,2/2,2/4, 2/6, 2/7}
+    \(\quad\longrightarrow\quad\)
+    \infectiongrid{2}{7}{1/1,1/2,1/3,1/4,2/1,2/2,2/3,2/4,1/5,1/6,2/5,2/6,1/7,2/7}
+\end{center}
+
+\subsection*{Cazul general}
+
+
+Presupunem, fără a restrânge generalitatea, că $N\leq M$. Infectăm inițial cele $N$ celule de pe diagonala pătratului din stânga sus: $(1,1),(2,2),\ldots,(N,N)$. Acest pătrat devine complet infectat. Într-adevăr, după ce pătratul $(k-1)\times(k-1)$ este infectat, celula $(k,k)$ permite infectarea celulelor $(k-1,k)$ și $(k,k-1)$. Infecția avansează apoi spre marginile de sus și din stânga, completând linia și coloana nouă.
+
+Au rămas $M-N$ coloane. Dacă primele $j$ coloane sunt infectate, alegem celula $(N,j+2)$. Celula $(N,j+1)$ se infectează folosind vecinii din stânga și din dreapta. Infecția urcă pe coloana $j+1$: fiecare celulă are un vecin infectat la stânga și unul sub ea. Apoi urcă în același mod pe coloana $j+2$. Astfel, fiecare teritoriu ales suplimentar acoperă două coloane. Dacă la final rămâne doar o coloană, alegem celula de jos a acesteia și infecția urcă până sus.
+
+Construcția folosește
+\[
+    N+\left\lceil\frac{M-N}{2}\right\rceil
+    =\left\lceil\frac{N+M}{2}\right\rceil
+\]
+teritorii.
+
+De exemplu, pentru $N = 4, M = 7$:
+
+\begin{center}
+    \infectiongrid{4}{7}{1/1,2/2,3/3,4/4,4/6,4/7}
+    \(\quad\longrightarrow\quad\)
+    \infectiongrid{4}{7}{1/1,1/2,1/3,1/4,1/5,1/6,1/7,
+                         2/1,2/2,2/3,2/4,2/5,2/6,2/7,
+                         3/1,3/2,3/3,3/4,3/5,3/6,3/7,
+                         4/1,4/2,4/3,4/4,4/5,4/6,4/7}
+\end{center}
+
+\textbf{Demonstrație limită inferioară:} Considerăm perimetrul regiunii infectate: numărul laturilor care separă un teritoriu infectat de unul neinfectat sau de exteriorul matricei. Dacă alegem inițial $K$ teritorii, perimetrul lor este cel mult $4K$.
+
+Când se infectează un teritoriu care are deja $t$ vecini infectați, perimetrul se modifică cu $4-2t$: apar cel mult patru laturi noi, iar cele $t$ laturi comune încetează să mai facă parte din perimetru. Regula de răspândire impune $t\geq 2$, deci perimetrul nu crește niciodată după momentul inițial. Dacă mai multe teritorii se infectează în aceeași zi, le putem adăuga pe rând; fiecare avea deja cel puțin doi vecini infectați în ziua precedentă.
+
+La final, întreaga matrice este infectată și are perimetrul $2(N+M)$. Prin urmare,
+\[
+    4K \geq 2(N+M)
+    \quad\Longrightarrow\quad
+    K \geq \left\lceil\frac{N+M}{2}\right\rceil.
+\]
+
+
+Complexitate finală: $\mathcal{O}(1)$.
