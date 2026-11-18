@@ -20,11 +20,11 @@ Cu alte cuvinte, suma cifrelor unui număr dă același rest la împărțirea cu
 
 Fie $f_1, f_2, \dots, f_K$ o înșiruire de $K$ farmece aplicate lui $x$. Atunci vrem ca 
 
-% \begin{align}
-%     x + f_1 + f_2 + \dots + f_K & \equiv 0 & \mod (B - 1) \\
-%     \Longleftrightarrow f_1 + f_2 + \dots + f_K & \equiv -x & \mod (B - 1) \\
-%     \Longleftrightarrow f_1 + f_2 + \dots + f_K & \equiv B - 1 - x & \mod (B - 1)
-% \end{align}
+\begin{align}
+    x + f_1 + f_2 + \cdots + f_K & \equiv 0 & \mod (B - 1) \\
+    \Longleftrightarrow f_1 + f_2 + \cdots + f_K & \equiv -x & \mod (B - 1) \\
+    \Longleftrightarrow f_1 + f_2 + \cdots + f_K & \equiv B - 1 - x & \mod (B - 1)
+\end{align}
 
 
 De acum în colo vom considera că lucrăm modulo $B - 1$. Fie $c_i$ numărul de farmece din cele $N$ care dau restul $i$ la împărțirea cu $B - 1$, iar $\mathrm{dp}_{k, r}$ numărul de moduri să obținem valoarea $r$ după aplicarea a $k$ farmece. Evident, $\mathrm{dp}_1 = c$.

@@ -8,7 +8,7 @@ Singura permutare pentru care răspunsul este zero este permutarea identitate.
 
 Similar, singurele permutări care au răspunsul egal cu $1$ sunt cele care au doar cicluri de lungime cel mult $2$. În mod clar, dacă avem un ciclu de lungime $> 2$, nu avem cum să aducem toate elementele sale la locul lor într-o singură operație, de vreme ce în orice operație putem atinge fiecare număr cel mult o dată. Prin urmare, pentru permutările care au cicluri de lungime $> 2$, răspunsul este cel puțin $2$.
 
-Un mod util de a aborda acum problema este: „știind care este forma unei permutări care are răspunsul $1$, cum putem ajunge cât mai aproape de respectiva formă?”. Trebuie să luăm un ciclu $(p_{i_0}, p_{i_1}, \dots, p_{i_{k-1}})$ și să îl transformăm în cicluri de lungime cel mult $2$. Se pare că putem face acest lucru într-o singură operație, iar swap-urile din acea operație sunt $(p_{i_1}, p_{i_{k-1}}), (p_{i_2}, p_{i_{k-2}}), \dots$
+Un mod util de a aborda acum problema este: \textit{,,știind care este forma unei permutări care are răspunsul $1$, cum putem ajunge cât mai aproape de respectiva formă?''}. Trebuie să luăm un ciclu $(p_{i_0}, p_{i_1}, \dots, p_{i_{k-1}})$ și să îl transformăm în cicluri de lungime cel mult $2$. Se pare că putem face acest lucru într-o singură operație, iar swap-urile din acea operație sunt $(p_{i_1}, p_{i_{k-1}}), (p_{i_2}, p_{i_{k-2}}), \dots$
 
 \medskip
 
